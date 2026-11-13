@@ -1,0 +1,234 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Новая эра · Урок 14 · Лексические игры</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff3df;color:#302421;font:18px system-ui,sans-serif}header,footer{max-width:1150px;margin:auto;padding:15px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}header strong{margin-right:auto}.logo{display:inline-grid;place-items:center;border-radius:100%;background:#8b2639;color:white;width:44px;height:44px}main{max-width:1100px;margin:0 auto;background:#fffdf8;border:1px solid #e9ccb2;border-radius:26px;padding:clamp(17px,4vw,45px);min-height:58vh;box-shadow:0 14px 45px #773d1715}h1{font-size:clamp(28px,5vw,55px);line-height:1.12;margin:.25em 0}.cover{background:linear-gradient(125deg,#772235,#a93e39 70%,#a75427);color:#fff9e8;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px}.art{font-size:clamp(42px,12vw,145px)}.eyebrow{font-weight:750;letter-spacing:.08em;color:#8b2639}.cover .eyebrow{color:#ffe1a5}button,input,select{font:inherit}button,select,input{border:1px solid #bd8a75;border-radius:12px;padding:10px 14px;background:#fffaf0;color:#302421}button{cursor:pointer}button:hover:not(:disabled){background:#ffe5bf}button:disabled{cursor:default;opacity:.68}.primary{background:#84273a;color:white;border-color:#84273a}.primary:hover:not(:disabled){background:#692031}.choices,.tools,.chips{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.choices button,.chips button{font-size:1.12em}.prompt{font-size:clamp(22px,3.6vw,34px);white-space:pre-line}.context{background:#f9edd9;padding:16px;border-radius:13px;line-height:1.75;white-space:pre-line}.feedback{padding:13px;background:#f8e6d8;border-radius:12px}.good{background:#dff1dc}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}.cards button,.card{text-align:left;background:#fff5e5;border:1px solid #ead3ba;border-radius:15px;padding:15px}.card h2{margin:0 0 8px;color:#84273a}.small{font-size:.9em}.table{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px;border-bottom:1px solid #e5cbb5}input{max-width:100%}:focus-visible{outline:3px solid #1d6b80;outline-offset:3px}#print{display:none}@media(max-width:600px){main{margin:0 8px}.cover{grid-template-columns:1fr}.art{grid-row:1}.choices button{flex:1 0 43%}}@media print{@page{size:A4;margin:15mm}body{background:white;color:black;font:12pt system-ui}header,main,footer{display:none!important}#print{display:block}tr{break-inside:avoid}}
+</style>
+<header><span class="logo" aria-label="eChinese">🐉</span><strong>eChinese · Новая эра</strong><button id="full">На весь экран</button><button id="report">Результаты · PDF</button><button id="reset">Сбросить результаты</button></header>
+<main id="slide"></main>
+<footer><button id="back">← Назад</button><button id="menu">Содержание</button><button id="next">Далее →</button><span id="progress" aria-live="polite"></span></footer><section id="print"></section>
+<script>
+const words=[
+['真','zhēn','действительно','真巧 — вот это совпадение!'],['巧','qiǎo','случайно совпасть; удачный','真巧！'],['出国','chūguó','уехать за границу','出国留学 — уехать учиться за границу'],['刚','gāng','только что; всего','我刚回来。'],['刚刚','gānggāng','только что','他刚刚走。'],['国外','guówài','за границей; зарубежье','从国外回来 — вернуться из-за границы'],['培训','péixùn','обучение, повышение квалификации','参加教师培训'],['方面','fāngmiàn','сфера; аспект','教学方面 — в сфере преподавания'],['教学','jiàoxué','преподавание','教学方法'],['讲','jiǎng','рассказывать; вести занятие','用英文讲课'],['方法','fāngfǎ','метод; способ','学习新的方法'],['水平','shuǐpíng','уровень','汉语水平'],['考试','kǎoshì','экзамен; сдавать экзамен','准备考试'],['懂','dǒng','понимать','我懂了。'],['考','kǎo','сдавать экзамен; экзаменовать','考英语'],['准备','zhǔnbèi','готовиться; готовить; собираться','准备去中国'],['期间','qījiān','в период; во время','培训期间'],['实习','shíxí','проходить практику; практика','去公司实习'],['日期','rìqī','дата','告诉我日期'],['忘','wàng','забывать','别忘了！'],['日','rì','день; число месяца','九月七日'],['打工','dǎgōng','работать по найму; подрабатывать','暑假去打工'],['忘记','wàngjì','забывать','我忘记了。'],['真的','zhēnde','правда; настоящий; действительно','是真的吗？'],['介绍','jièshào','представлять; знакомить с чем-либо','介绍一下你自己'],['听懂','tīngdǒng','понять на слух','我没听懂。'],['哪里哪里','nǎli nǎli','что вы, что вы (скромный ответ на похвалу)','你讲得真好！——哪里哪里！']
+];
+const notes=[
+['真 / 真的','Перед оценкой 真 усиливает её: 真巧！ Перед сказуемым возможны оба слова: 我真喜欢／我真的喜欢. В 是真的 и 都是真的 слово 真的 означает «это правда».'],
+['培训 / 实习 / 打工','培训 — обучение навыкам, например 参加教师培训. 实习 — практика по специальности, например 去公司实习. 打工 — работа по найму, часто подработка, например 暑假打工赚钱.'],
+['讲 / 介绍','讲课 — вести занятие, 讲故事 — рассказывать историю. 介绍自己 — представиться, 介绍公司 — познакомить с компанией. О городе можно и рассказывать, и знакомить с ним: выбор зависит от цели.'],
+['考 / 考试','考英语 — сдавать английский. 要考试 — предстоит экзамен. В 这次考试 и 准备考试 слово 考试 выступает как существительное.'],
+['准备','准备 + предмет: 准备考试 — готовиться к экзамену. 准备 + действие: 准备去中国 — собираться поехать в Китай.'],
+['忘 / 忘记','Оба варианта часто подходят: 别忘了带书／别忘记带书. В разговорной речи короткое 忘 часто встречается в 别忘了.'],
+['懂 / 听懂','懂 — понимать. 听懂 — понять услышанное. 没听懂 — сейчас не понял услышанное, 听不懂 — не могу понять на слух.'],
+['刚 / 刚刚','Оба могут означать «только что»: 他刚走／他刚刚走. 刚 также подчёркивает небольшой срок: 我刚来中国三个月。'],
+['出国 / 国外','出国 — действие «уехать за границу». 国外 — место: 在国外 «за границей», 从国外回来 «вернуться из-за границы».'],
+['日期 / 日 / 期间','日期 — дата, которую можно назвать или записать. 日 после месяца указывает число: 九月七日. 期间 указывает на период: 培训期间.'],
+['哪里哪里','Скромная реакция на похвалу в разговоре. В официальной переписке уместнее нейтральное 谢谢您的肯定。']
+];
+const q=(prompt,answer,options=[],explain='',context='',type='choice')=>({prompt,answer:[answer].flat(),options,explain,context,type});
+const by=w=>words.find(row=>row[0]===w);
+const pick=(w,i,j,d)=>q(by(w)[i],by(w)[j],d.map(x=>by(x)[j]),by(w)[3]);
+const text=(p,a,e='',c='')=>q(p,a,[],e,c,'text');
+const tiles=(p,a,d,e='')=>q(p,a,d,e,'','tiles');
+const games=[
+['🀄','Узнай слово','Выбери написание слова по значению.',[
+...['培训','教学','期间','水平','日期','准备'].map((w,i)=>pick(w,2,0,[['实习','打工','教学'],['方面','方法','水平'],['日期','国外','准备'],['方法','教学','方面'],['期间','水平','方法'],['忘记','实习','出国']][i]))]],
+['🧩','Собери иероглифы','Нажимай на иероглифы в нужном порядке.',[
+tiles('метод','方法',['方','法','面','水','平'],'教学方法'),tiles('проходить практику','实习',['习','实','教','学','训'],'去公司实习'),tiles('работать по найму','打工',['工','打','讲','考','课'],'在公司打工'),tiles('забывать · два иероглифа','忘记',['记','忘','期','准','备'],'别忘记带书。'),tiles('уехать за границу','出国',['国','出','外','日','回'],'出国留学'),tiles('уровень','水平',['水','平','方','法','面'],'汉语水平')]],
+['✍️','Напиши по-китайски','Введи слово иероглифами. Для задания с двумя вариантами достаточно одного.',[
+text('дата · rìqī','日期'),text('готовиться · zhǔnbèi','准备'),text('сфера, аспект · fāngmiàn','方面'),text('понимать · dǒng','懂'),text('экзамен · kǎoshì','考试'),text('забывать',['忘','忘记'],'Подходят оба слова.')]],
+['🎵','Поймай тон','Выбери пиньинь с правильными тонами.',[
+q('培训','péixùn',['pèixùn','péixún','pěixùn']),q('实习','shíxí',['shǐxí','shíxì','shìxí']),q('考试','kǎoshì',['kāoshì','kǎoshí','kàoshì']),q('方法','fāngfǎ',['fángfǎ','fāngfà','fǎngfǎ']),q('刚刚','gānggāng',['gǎnggāng','gānggǎng','gànggāng'],'Оба слога читаются первым тоном.'),q('准备','zhǔnbèi',['zhúnbèi','zhǔnbēi','zhùnbèi'])]],
+['⌨️','Запиши пиньинь','Можно писать знаками тонов или цифрами после слогов. Пример формата — ni3 hao3.',[
+text('出国',['chūguó','chu1guo2']),text('水平',['shuǐpíng','shui3ping2']),text('打工',['dǎgōng','da3gong1']),text('忘记',['wàngjì','wang4ji4']),text('日期',['rìqī','ri4qi1']),text('讲',['jiǎng','jiang3'])]],
+['🔁','Переведи фразу','Выбери перевод целого выражения.',[
+q('用英文讲课','вести занятие на английском',['сдавать английский','изучать методы преподавания','представиться по-английски']),q('三天前刚从国外回来','только три дня назад вернулся из-за границы',['три дня назад уехал за границу','вернётся из-за границы через три дня','всего три дня провёл за границей']),q('准备去中国学习汉语','собираться поехать в Китай учить китайский',['готовить экзамен по китайскому','преподавать китайский в Китае','вернуться из Китая после учёбы']),q('别忘了告诉我日期','не забудь сообщить мне дату',['не забудь сообщить мне результаты','запиши дату экзамена','не забудь прийти вовремя']),q('我没听懂，请再说一遍。','Я не понял на слух. Повторите, пожалуйста.',['Я понял. Говорите дальше.','Я не расслышал дату экзамена.','Я не могу говорить по-китайски.']),q('培训期间',['во время обучения'],['после обучения','дата обучения','метод обучения'])]],
+['🎒','Куда и зачем?','Выбери слово по цели персонажа.',[
+q('Курсы для преподавателей → 参加教师___','培训',['实习','打工','考试']),q('Практика по специальности от университета → 去公司___','实习',['培训','打工','出国']),q('Работа за деньги на каникулах → 暑假___赚钱','打工',['考试','教学','实习'],'打工赚钱 — подрабатывать, чтобы заработать.'),q('Уехать из своей страны учиться → 明年___留学','出国',['国外','培训','打工']),q('Жить за пределами своей страны → 住在___','国外',['出国','期间','方面']),q('Записать точную дату встречи → 记下见面的___','日期',['期间','方法','水平'])]],
+['💬','Слово на своём месте','Восстанови выражение по смыслу.',[
+q('«Это правда?» → 是___吗？','真的',['真','巧','刚']),q('«Мне правда нравится этот метод» → 我___喜欢这个方法。',['真','真的'],['刚','巧'],'В этой позиции подходят 真 и 真的.'),q('«Представьтесь, пожалуйста» → 请___一下你自己。','介绍',['讲','考','懂']),q('«Преподаватель ведёт занятие» → 老师在___课。','讲',['介绍','忘','懂']),q('«В четверг сдаём английский» → 周四我们___英语。','考',['考试','介绍','忘记'],'考 может прямо присоединять название предмета.'),q('«Не забудь взять паспорт» → 别___带护照。',['忘了','忘记'],['准备','听懂'],'别忘了带护照 и 别忘记带护照 — оба правильны.')]],
+['🔍','Прочитай и дополни','Сначала прочитай мини-текст, затем восстанови пропуск.',[
+q('Какое слово пропущено после 教师?','培训',['实习','打工','考试'],'她去中国参加大学教师培训。','张老师去中国参加大学教师___。她每天上课，还学习新的教学方法。'),
+q('Какое слово обозначает здесь «экзамен»? → 这次___不难。','考试',['考','讲','懂'],'После 这次 здесь нужно существительное 考试.','周四我们考了英语。老师说，这次___不难。'),
+q('«Не понял то, что только что услышал» → 我没___。','听懂',['忘记','讲课','准备'],'没听懂 относится к конкретной услышанной реплике.','老师刚才用英文说了一句话。伊万说：“我没___，请再说一遍。”'),
+q('Какое слово означает «собирается»? → 伊万___去中国。','准备',['懂','讲','忘记'],'准备 + действие означает намерение.','今年夏天伊万想学汉语。他___去中国，还想找一家公司实习。'),
+q('Найди обозначение числа месяца → 九月七___。','日',['日期','期间','方面'],'日 после числа обозначает день месяца.','玛丽说她九月六日有考试。她和伊万可以从九月七___开始实习。'),
+q('Как Иван скромно ответит на похвалу?','哪里哪里',['真巧','别忘了','请再说一遍'],'哪里哪里 — скромная реакция на похвалу.','张老师：“你的汉语讲得真好！” 伊万：“___！”')]],
+['🗓️','Восстанови сообщение','Собери пропущенное слово по смыслу сообщения.',[
+tiles('我刚从___回来。\nЯ только что вернулся из-за границы.','国外',['外','国','出','期'],'从国外回来'),tiles('我准备去姐姐的公司___。\nЯ собираюсь пройти практику в компании сестры.','实习',['习','实','打','工'],'去公司实习'),tiles('你能告诉我开始的___吗？\nМожешь сказать дату начала?','日期',['日','期','间','准'],'开始的日期'),tiles('___期间我学了新的教学方法。\nВо время повышения квалификации я изучил новые методы преподавания.','培训',['培','训','工','习'],'培训期间'),tiles('这次___不太难。\nЭтот экзамен не слишком трудный.','考试',['考','试','讲','课'],'这次考试'),tiles('你的汉语___提高了！\nТвой уровень китайского повысился!','水平',['平','水','法','面'],'汉语水平')]]
+];
+games.push(
+['🎙️','Произнеси и выбери тон','Прочитай слово вслух по пиньиню без знаков. Затем выбери тон выделенного слога. Проверяется выбор тона.',[
+...[
+['实习 · shi xi → shi',2,'shíxí'],['水平 · shui ping → shui',3,'shuǐpíng'],['准备 · zhun bei → bei',4,'zhǔnbèi'],['出国 · chu guo → chu',1,'chūguó'],['日期 · ri qi → ri',4,'rìqī'],['教学 · jiao xue → xue',2,'jiàoxué']
+].map(([p,t,e])=>q(p,t+'-й тон',[1,2,3,4].filter(x=>x!==t).map(x=>x+'-й тон'),'Прочитай ещё раз: '+e+'.'))]],
+['🎼','Услышь себя: два тона','Произнеси оба слога вслух, затем выбери порядок тонов. Стрелка показывает порядок слогов.',[
+...[
+['国外 · guo wai','2 → 4','guówài'],['方面 · fang mian','1 → 4','fāngmiàn'],['打工 · da gong','3 → 1','dǎgōng'],['忘记 · wang ji','4 → 4','wàngjì'],['期间 · qi jian','1 → 1','qījiān'],['听懂 · ting dong','1 → 3','tīngdǒng']
+].map(([p,a,e])=>q(p,a,['1 → 4','4 → 2','1 → 3','2 → 1','3 → 4'].filter(x=>x!==a).slice(0,3),'Прочитай ещё раз: '+e+'.'))]],
+['🔠','Расставь знаки тонов','Запиши оба слога со знаками тонов или с цифрами. Затем прочитай слово вслух.',[
+...[
+['培训 · pei xun','péixùn','pei2xun4'],['方法 · fang fa','fāngfǎ','fang1fa3'],['考试 · kao shi','kǎoshì','kao3shi4'],['刚刚 · gang gang','gānggāng','gang1gang1'],['实习 · shi xi','shíxí','shi2xi2'],['介绍 · jie shao','jièshào','jie4shao4']
+].map(([p,a,b])=>text(p,[a,b],'Прочитай вслух: '+a+'.'))]],
+['👀','Найди нужный иероглиф','Восстанови слово. Варианты похожи по написанию.',[
+q('___期 · дата','日',['曰','目','白'],'日期 rìqī'),q('忘___ · забывать','记',['纪','计','订'],'忘记 wàngjì'),q('出___ · уезжать за границу','国',['园','团','困'],'出国 chūguó'),q('___回来 · только что вернулся','刚',['钢','纲','岗'],'刚回来 gāng huílái'),q('___法 · метод','方',['万','力','刀'],'方法 fāngfǎ'),q('水___ · уровень','平',['半','干','乎'],'水平 shuǐpíng')]],
+['✏️','Допиши черту','Дорисуй одну черту прямо в клетке мышью, стилусом или пальцем. Затем нажми «Проверить».',[
+...[
+['工','M24 27H76 M50 27V75','M19 75H81'],
+['日','M31 20V81 M31 20H69V80 M31 80H69','M31 50H69'],
+['大','M22 42H78 M52 18Q54 65 20 82','M52 49Q64 74 84 82'],
+['玉','M28 25H72 M34 48H66 M50 25V76 M23 76H77','M61 55L70 64'],
+['口','M26 29V73 M26 29H74V73','M26 73H74'],
+['平','M26 23H74 M29 34L38 46 M72 34L63 46 M18 55H82','M50 55V84']
+].map(([han,path,missing],i)=>({...q('Клетка '+(i+1),han,[],'Образец показан цветом.','','stroke'),path,missing}))]],
+['🧠','Добавь недостающую часть','Прочитай пиньинь и перевод. Подставь подходящую часть в пустое место схемы.',[
+q('jiǎng · рассказывать','井',['开','升','干'],'讠 + 井 → 讲','讠 □  ·  Справа'),
+q('qī · период, срок','其',['共','具','真'],'其 + 月 → 期','□ 月  ·  Слева'),
+q('wàng · забывать','亡',['方','亢','立'],'亡 + 心 → 忘','□\n心  ·  Сверху'),
+q('sī · управлять, ведать (в gōngsī — компания)','口',['日','目','田'],'司 содержит 口 внутри рамки.','𠃌 一 □  ·  Внутри'),
+q('jì · записывать, помнить','讠',['扌','氵','忄'],'讠 + 己 → 记','□ 己  ·  Слева'),
+q('xiǎng · думать, хотеть','心',['手','木','火'],'相 + 心 → 想','相\n□  ·  Снизу')
+]],
+['🧱','Собери один иероглиф','Собери знак по чтению и переводу. Добавляй части слева направо или сверху вниз. Для знака с рамкой начни с рамки.',[
+...[
+['dǎ · бить, ударять','扌丁',['丁','扌','寸','讠'],'扌 + 丁 → 打 dǎ'],
+['xùn · обучать, наставлять','讠川',['川','讠','三','扌'],'讠 + 川 → 训 xùn'],
+['dǒng · понимать','忄董',['董','忄','心','重'],'忄 + 董 → 懂 dǒng'],
+['guó · страна, государство','囗玉',['玉','口','囗','王'],'囗 + 玉 → 国 guó'],
+['wàng · забывать','亡心',['心','亡','方','忄'],'亡 + 心 → 忘 wàng'],
+['tīng · слушать','口斤',['斤','口','囗','丁'],'口 + 斤 → 听 tīng']
+].map(([p,a,d,e])=>tiles(p,a,d,e))]]
+);
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mix=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+const range=n=>Array.from({length:n},(_,i)=>i);
+const KEY='new-era14-lex-v1';
+let saved;
+try{saved=JSON.parse(localStorage.getItem(KEY))}catch{}
+const fresh=()=>({revision:2,order:games.map(g=>mix(range(g[3].length))),attempts:games.map(()=>[]),name:''});
+let state=fresh(),page=0,selected=[];
+if(saved?.order && saved?.attempts){
+ state.name=typeof saved.name==='string'?saved.name:'';
+ for(const i of range(games.length)){
+  if(saved.revision!==2 && (i===14 || i===15))continue;
+  if(saved.order[i]?.length===games[i][3].length && Array.isArray(saved.attempts[i])){
+   state.order[i]=saved.order[i];
+   state.attempts[i]=saved.attempts[i];
+  }
+ }
+}
+const lastPage=games.length+4;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+const slide=document.querySelector('#slide');
+const normalize=s=>s.normalize('NFC').toLowerCase().replace(/[\s·，。？！,.!?'-]/g,'');
+const total=games.reduce((sum,g)=>sum+g[3].length,0);
+const score=i=>state.attempts[i].filter(a=>a.ok).length;
+const done=()=>state.attempts.reduce((sum,a)=>sum+a.length,0);
+const points=()=>games.reduce((sum,g,i)=>sum+score(i),0);
+const goto=n=>{page=Math.min(lastPage,Math.max(0,n));selected=[];render();window.scrollTo(0,0);slide.focus({preventScroll:true})};
+slide.tabIndex=-1;
+function table(rows){return '<div class="table"><table><thead><tr><th>Игра</th><th>Выполнено</th><th>Верно</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+function results(){return table(games.map((g,i)=>'<tr><td>'+esc(g[1])+'</td><td>'+state.attempts[i].length+' / '+g[3].length+'</td><td>'+score(i)+'</td></tr>').join(''))}
+function render(){
+ slide.className=page===0?'cover':'';
+ document.querySelector('#progress').textContent='Ответы '+done()+' / '+total+' · Верно '+points();
+ document.querySelector('#back').disabled=page===0;
+ document.querySelector('#next').disabled=page===lastPage;
+ if(page===0){slide.innerHTML='<div><div class="eyebrow">HSK 2 · УРОК 14 · ЧАСТЬ 2</div><h1>Строим планы<br>на сентябрь</h1><p lang="zh">我们见个面</p><p>17 лексических игр, словарик и разбор употребления</p><button class="primary" data-go="1">Начать →</button></div><div class="art" aria-hidden="true">🐉</div>';return}
+ if(page===1){slide.innerHTML='<h1>Содержание</h1><div class="tools"><button data-go="2">📖 Словарик</button><button data-go="3">💡 Лексический комментарий</button><button data-go="'+lastPage+'">📄 Результаты для учителя</button></div><div class="cards">'+games.map((g,i)=>'<button data-go="'+(4+i)+'">'+g[0]+' '+(i+1)+'. '+g[1]+'<br><small>'+state.attempts[i].length+' / '+g[3].length+' выполнено</small></button>').join('')+'</div>';return}
+ if(page===2){slide.innerHTML='<h1>Словарик 生词</h1><div class="tools"><button id="pinyin" aria-pressed="false">Скрыть пиньинь</button></div><div class="table"><table><thead><tr><th>Слово</th><th class="py">Пиньинь</th><th>Значение</th><th>Пример</th></tr></thead><tbody>'+words.map(w=>'<tr>'+w.map((v,j)=>'<td'+(j===1?' class="py"':j===0?' lang="zh"':'')+'>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';document.querySelector('#pinyin').onclick=e=>{const hide=e.target.getAttribute('aria-pressed')==='false';e.target.setAttribute('aria-pressed',hide);e.target.textContent=hide?'Показать пиньинь':'Скрыть пиньинь';slide.querySelectorAll('.py').forEach(c=>c.hidden=hide)};return}
+ if(page===3){slide.innerHTML='<h1>Лексический комментарий</h1><div class="cards">'+notes.map(([h,t])=>'<section class="card"><h2 lang="zh">'+h+'</h2>'+esc(t)+'</section>').join('')+'</div>';return}
+ if(page===lastPage){slide.innerHTML='<h1>Результаты для учителя</h1><p>Верно '+points()+' из '+total+' · Выполнено '+done()+' из '+total+'</p><label>Имя ученика <input id="student" maxlength="100" autocomplete="name" value="'+esc(state.name)+'"></label>'+results()+'<div class="tools"><button class="primary" id="pdf">Отправить учителю · PDF</button></div><p class="small">В окне печати выбери «Сохранить как PDF», затем прикрепи файл в сообщении учителю.</p>';document.querySelector('#student').oninput=e=>{state.name=e.target.value;save()};document.querySelector('#pdf').onclick=printReport;return}
+ const i=page-4,g=games[i],attempts=state.attempts[i],n=attempts.length;
+ slide.innerHTML='<div class="eyebrow">ИГРА '+(i+1)+' ИЗ '+games.length+'</div><h1>'+g[0]+' '+g[1]+'</h1>';
+ if(n===g[3].length){slide.innerHTML+='<p class="prompt">Верно '+score(i)+' из '+n+'</p><div class="tools"><button class="primary" data-go="'+(page+1)+'">'+(page===lastPage-1?'К результатам':'Следующая игра')+' →</button><button data-go="1">К содержанию</button><button id="retry">Пройти игру заново</button></div>';document.querySelector('#retry').onclick=()=>{if(confirm('Заменить результаты этой игры новой попыткой?')){state.attempts[i]=[];state.order[i]=mix(range(n));save();render()}};return}
+ drawQuestion(i,n);
+}
+function drawQuestion(i,n){
+ const g=games[i],item=g[3][state.order[i][n]],id=state.order[i][n];
+ const choices=mix([...new Set([...item.answer,...item.options])]);
+ const letters=mix(item.options);
+ slide.insertAdjacentHTML('beforeend','<p>'+g[2]+'</p><div class="small">Задание '+(n+1)+' / '+g[3].length+'</div>'+(item.context?'<div class="context" lang="zh">'+esc(item.context)+'</div>':'')+'<p class="prompt">'+esc(item.prompt)+'</p><div id="interaction"></div><div id="feedback" aria-live="polite"></div>');
+ const box=document.querySelector('#interaction'),feedback=document.querySelector('#feedback');
+ const sketch=item.path?'<svg viewBox="0 0 100 100" width="230" style="max-width:100%;touch-action:none;cursor:crosshair;user-select:none" role="img" aria-label="Иероглиф с пропущенной чертой"><rect x="1" y="1" width="98" height="98" rx="5" fill="#fff8e9" stroke="#b98876"/><path d="M50 4V96 M4 50H96" stroke="#dcc0a8" stroke-dasharray="4 4"/><path d="'+item.path+'" fill="none" stroke="#302421" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path id="missing-stroke" d="'+item.missing+'" fill="none" stroke="#b92548" stroke-width="5" stroke-linecap="round" visibility="hidden"/><polyline id="ink" fill="none" stroke="#126b83" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
+ if(sketch)box.insertAdjacentHTML('beforebegin',sketch);
+ let locked=false;
+ function check(value,strokeCorrect){
+  if(locked||!value.trim())return;
+  locked=true;
+  if(sketch)slide.querySelector("#missing-stroke").setAttribute("visibility","visible");
+  const ok=strokeCorrect ?? item.answer.some(a=>normalize(a)===normalize(value));
+  state.attempts[i].push({id,value,ok});save();
+  box.querySelectorAll('button,input').forEach(el=>el.disabled=true);
+  feedback.innerHTML='<p class="feedback '+(ok?'good':'')+'">'+(ok?'✓ Верно. ':'Правильный ответ — '+esc(item.answer.join(' / '))+'. ')+esc(item.explain)+'</p><button class="primary" id="continue">Продолжить →</button>';
+  document.querySelector('#progress').textContent='Ответы '+done()+' / '+total+' · Верно '+points();
+  document.querySelector('#continue').onclick=()=>goto(i+4);
+  document.querySelector('#continue').focus();
+ }
+ if(item.type==='stroke'){
+  box.innerHTML='<div class="tools"><button id="clear-ink" disabled>Стереть черту</button><button id="check-ink" class="primary" disabled>Проверить</button></div>';
+  const svg=slide.querySelector('svg'),ink=svg.querySelector('#ink'),model=svg.querySelector('#missing-stroke');
+  const clear=box.querySelector('#clear-ink'),verify=box.querySelector('#check-ink');
+  let active=null,points=[];
+  function addPoint(event){
+   const point=new DOMPoint(event.clientX,event.clientY).matrixTransform(svg.getScreenCTM().inverse());
+   points.push([point.x,point.y]);
+   ink.setAttribute('points',points.map(pair=>pair.join(',')).join(' '));
+  }
+  clear.onclick=()=>{points=[];ink.removeAttribute('points');clear.disabled=verify.disabled=true};
+  svg.onpointerdown=event=>{
+   if(locked||active!==null||event.button!==0)return;
+   active=event.pointerId;svg.setPointerCapture(active);points=[];addPoint(event);
+   clear.disabled=verify.disabled=true;
+  };
+  svg.onpointermove=event=>{if(event.pointerId===active)addPoint(event)};
+  svg.onpointerup=event=>{
+   if(event.pointerId!==active)return;
+   addPoint(event);active=null;clear.disabled=false;
+   verify.disabled=Math.hypot(points[0][0]-points.at(-1)[0],points[0][1]-points.at(-1)[1])<4;
+  };
+  svg.onpointercancel=event=>{if(event.pointerId===active){active=null;clear.onclick()}};
+  verify.onclick=()=>{
+   const length=model.getTotalLength();
+   const sample=Array.from({length:21},(_,k)=>model.getPointAtLength(k*length/20));
+   const distance=([x,y],p)=>Math.hypot(x-p.x,y-p.y);
+   const tolerance=Math.max(6,Math.min(13,length*.23));
+   const ok=distance(points[0],sample[0])<=tolerance &&
+    distance(points.at(-1),sample.at(-1))<=tolerance &&
+    points.every(point=>sample.some(ref=>distance(point,ref)<=tolerance));
+   check('Черта от руки',ok);
+  };
+ }else if(item.type==='choice'){
+  box.className='choices';
+  choices.forEach(value=>{const b=document.createElement('button');b.textContent=value;b.onclick=()=>check(value);box.append(b)});
+ }else if(item.type==='text'){
+  box.innerHTML='<form class="tools"><input aria-label="Ответ" autocomplete="off" spellcheck="false" required placeholder="Введи ответ"><button class="primary">Проверить</button></form>';
+  box.firstChild.onsubmit=e=>{e.preventDefault();check(box.querySelector('input').value)};
+ }else{
+  box.innerHTML='<div id="built" class="context" aria-live="polite">Нажми на иероглифы</div><div class="chips"></div><div class="tools"><button id="undo">Убрать последний</button><button class="primary" id="check">Проверить</button></div>';
+  const built=box.querySelector('#built'),bank=box.querySelector('.chips'),verify=box.querySelector('#check'),undo=box.querySelector('#undo');
+  selected=[];
+  const refresh=()=>{built.textContent=selected.map(k=>letters[k]).join('')||'Нажми на иероглифы';[...bank.children].forEach((b,k)=>b.disabled=selected.includes(k));verify.disabled=selected.length!==Array.from(item.answer[0]).length;undo.disabled=!selected.length};
+  letters.forEach((l,k)=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{if(selected.length<Array.from(item.answer[0]).length){selected.push(k);refresh()}};bank.append(b)});
+  verify.onclick=()=>check(selected.map(k=>letters[k]).join(''));undo.onclick=()=>{selected.pop();refresh()};refresh();
+ }
+}
+async function printReport(){
+ const details=games.map((g,i)=>{
+  const missed=state.attempts[i].filter(a=>!a.ok);
+  return missed.length?'<h3>'+esc(g[1])+'</h3><ul>'+missed.map(a=>{const item=g[3][a.id];return '<li>'+esc(item.prompt)+' · ответ ученика <b>'+esc(a.value)+'</b> · верно <b>'+esc(item.answer.join(' / '))+'</b></li>'}).join('')+'</ul>':'';
+ }).join('');
+ document.querySelector('#print').innerHTML='<h1>Результаты по лексике</h1><p>Китайский язык. Новая эра · HSK 2 · Урок 14, часть 2</p><p>Ученик — '+esc(state.name.trim()||'________________')+'<br>Дата — '+new Date().toLocaleDateString('ru-RU')+'</p><p>Выполнено '+done()+' / '+total+' · Верно '+points()+' / '+total+'</p>'+results()+(details?'<h2>Ответы для разбора</h2>'+details:'');
+ if(document.fullscreenElement && document.exitFullscreen){
+  try{await document.exitFullscreen()}catch{}
+ }
+ window.print();
+}
+slide.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)goto(Number(b.dataset.go))});
+document.querySelector('#report').onclick=()=>goto(lastPage);
+document.querySelector('#menu').onclick=()=>goto(1);
+document.querySelector('#back').onclick=()=>goto(page-1);
+document.querySelector('#next').onclick=()=>goto(page+1);
+document.querySelector('#reset').onclick=()=>{if(confirm('Сбросить результаты всех игр и перемешать задания?')){state=fresh();save();goto(1)}};
+document.querySelector('#full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else alert('Открой презентацию в отдельной вкладке браузера. Полноэкранный режим зависит от устройства.')}catch{alert('Полноэкранный режим недоступен в этом окне. Открой HTML-файл в браузере.')}};
+document.addEventListener('fullscreenchange',()=>document.querySelector('#full').textContent=document.fullscreenElement?'Выйти из полноэкранного режима':'На весь экран');
+render();
+</script></html>
